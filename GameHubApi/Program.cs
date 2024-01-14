@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 // Register Services
 builder.Services.AddPresentation()
                 .AddApplication()
-                .AddInfrastructure();
+                .AddInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
