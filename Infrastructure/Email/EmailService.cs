@@ -15,18 +15,18 @@ namespace Infrastructure.Email
     public class EmailService : IEmailService
     {
         private readonly ILogger<EmailService> _logger;
-        private readonly IFluentEmail _fluentEmail;
+        private readonly IFluentEmailFactory _fluentEmailFactory;
 
-        public EmailService(ILogger<EmailService> logger,IFluentEmail fluentEmail)
+        public EmailService(ILogger<EmailService> logger, IFluentEmailFactory fluentEmailFactory)
         {
             _logger = logger;
-            _fluentEmail = fluentEmail;
+            _fluentEmailFactory = fluentEmailFactory;
         }
 
         public async Task Send(EmailMessageModel emailMessageModel)
         {
             _logger.LogInformation("Sending email");
-            await _fluentEmail.To(emailMessageModel.ToAddress)
+            await _fluentEmailFactory.Create().To(emailMessageModel.ToAddress)
                 .Subject(emailMessageModel.Subject)
                 .Body(emailMessageModel.Body,true)
                 .SendAsync();
