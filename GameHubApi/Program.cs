@@ -1,6 +1,8 @@
 using Application;
 using GameHubApi;
 using Infrastructure;
+using Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddPresentation()
                 .AddApplication()
                 .AddInfrastructure();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.MapIdentityApi<IdentityUser>();
 
 app.MapControllers();
 
