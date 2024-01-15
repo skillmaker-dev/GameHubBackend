@@ -54,7 +54,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
@@ -91,7 +91,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
@@ -118,7 +118,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
@@ -145,7 +145,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
@@ -199,7 +199,7 @@ namespace Infrastructure.External_Services.RAWG
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 _logger.LogCritical("Could not make call to the api, unauthorized");
-                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+                throw new RawgApiException("Could not make call to the api", HttpStatusCode.InternalServerError);
             }
             else
             {
