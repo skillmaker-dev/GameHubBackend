@@ -159,9 +159,31 @@ namespace Infrastructure.External_Services.RAWG
             }
         }
 
-        public Task<IEnumerable<Genre>?> GetGenresAsync()
+        public async Task<RawgFetchResponse<Genre>?> GetGenresAsync()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Attempting to get genres");
+            var response = await _httpClient.GetAsync($"genres?key={_key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var genresResponse = await response.Content.ReadFromJsonAsync<RawgFetchResponse<Genre>>();
+                return genresResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogError("Could not find genres");
+                throw new GenresNotFoundException("Could not find genres");
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
+                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+            }
+            else
+            {
+                _logger.LogCritical("An error occured when calling the api");
+                throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
+            }
         }
 
         public Task<IEnumerable<Platform>?> GetPlatformsAsync()

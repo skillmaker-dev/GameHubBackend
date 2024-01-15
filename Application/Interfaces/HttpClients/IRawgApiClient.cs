@@ -26,7 +26,11 @@ namespace Application.Interfaces.HttpClient
         /// <param name="slug">Slug of the game</param>
         /// <returns>A <see cref="Game"/> object</returns>
         Task<Game?> GetGameAsync(string slug);
-        Task<IEnumerable<Genre>?> GetGenresAsync();
+        /// <summary>
+        /// Get genres list
+        /// </summary>
+        /// <returns>A <see cref="RawgFetchResponse{T}"/> Object that contains a list of genres</returns>
+        Task<RawgFetchResponse<Genre>?> GetGenresAsync();
         Task<IEnumerable<Platform>?> GetPlatformsAsync();
         /// <summary>
         /// Get game screenshots.
