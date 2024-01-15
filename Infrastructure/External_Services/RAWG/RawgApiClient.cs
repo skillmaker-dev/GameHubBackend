@@ -43,6 +43,7 @@ namespace Infrastructure.External_Services.RAWG
 
         public async Task<Game?> GetGameAsync(string slug)
         {
+            _logger.LogInformation("Attempting to get Game with slug {slug}", slug);
             var response = await _httpClient.GetAsync($"games/{slug}?key={_key}");
 
             if (response.IsSuccessStatusCode)
@@ -52,20 +53,24 @@ namespace Infrastructure.External_Services.RAWG
             }
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new RawgApiException("Could not find the game",response.StatusCode);
+                _logger.LogError("Could not find the game with slug {slug}", slug);
+                throw new GameNotFoundException("Could not find the game");
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
                 throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
             }
             else
             {
+                _logger.LogCritical("An error occured when calling the api");
                 throw new RawgApiException("An error occured when calling the api",HttpStatusCode.InternalServerError);
             }
         }
 
         public async Task<RawgFetchResponse<Game>?> GetGamesAsync(string? genres, string? parentPlatforms, string? ordering, string? search, string? page)
         {
+            _logger.LogInformation("Attempting to get Games list");
             var queryParams = new Dictionary<string, string?>()
             {
                 { "genres", genres },
@@ -85,14 +90,17 @@ namespace Infrastructure.External_Services.RAWG
             }
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                throw new RawgApiException("Could not find the games", response.StatusCode);
+                _logger.LogError("Could not find the games");
+                throw new GamesListNotFoundException("Could not find the games");
             }
             else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
                 throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
             }
             else
             {
+                _logger.LogCritical("An error occured when calling the api");
                 throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
             }
         }
