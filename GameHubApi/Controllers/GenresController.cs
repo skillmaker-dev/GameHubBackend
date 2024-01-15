@@ -3,6 +3,7 @@ using GameHubApi.DTOs;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace GameHubApi.Controllers
 {
@@ -13,7 +14,7 @@ namespace GameHubApi.Controllers
         private readonly ILogger<GenresController> _logger = logger;
         private readonly IRawgApiClient _rawgApiClient = rawgApiClient;
 
-        [HttpGet]
+        [HttpGet,OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GenreDTO>>> GetGenres()
         {
             _logger.LogInformation($"Calling the {nameof(GetGenres)} endpoint");

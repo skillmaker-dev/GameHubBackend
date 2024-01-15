@@ -25,12 +25,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseOutputCache();
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseAuthorization();
 app.MapIdentityApi<IdentityUser>();
-
 app.MapControllers();
 
 app.Run();

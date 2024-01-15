@@ -5,6 +5,7 @@ using GameHubApi.DTOs;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace GameHubApi.Controllers
 {
@@ -15,7 +16,7 @@ namespace GameHubApi.Controllers
         private readonly ILogger<GamesController> _logger = logger;
         private readonly IRawgApiClient _rawgApiClient = rawgApiClient;
 
-        [HttpGet]
+        [HttpGet,OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGames(string? genre, string? parentPlatform, string? ordering, string? search, string? page)
         {
             _logger.LogInformation($"Calling the {nameof(GetGames)} endpoint");
@@ -23,7 +24,7 @@ namespace GameHubApi.Controllers
             return Ok(games.Adapt<RawgFetchResponseDTO<GameDTO>>());
         }
 
-        [HttpGet("{slug}")]
+        [HttpGet("{slug}"), OutputCache]
         public async Task<ActionResult<GameDTO>> GetGame(string slug)
         {
             _logger.LogInformation($"Calling the {nameof(GetGame)} endpoint");
@@ -31,7 +32,7 @@ namespace GameHubApi.Controllers
             return Ok(game.Adapt<GameDTO>());
         }
 
-        [HttpGet("{id}/screenshots")]
+        [HttpGet("{id}/screenshots"), OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GameScreenshotDTO>>> GetGameScreenshots(int id)
         {
             _logger.LogInformation($"Calling the {nameof(GetGameScreenshots)} endpoint");
@@ -39,7 +40,7 @@ namespace GameHubApi.Controllers
             return Ok(screenshots.Adapt<RawgFetchResponseDTO<GameScreenshotDTO>>());
         }
 
-        [HttpGet("{id}/movies")]
+        [HttpGet("{id}/movies"), OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GameTrailerDTO>>> GetGameTrailers(int id)
         {
             _logger.LogInformation($"Calling the {nameof(GetGameTrailers)} endpoint");
