@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces.Email;
+using Application.Interfaces.HttpClient;
 using Infrastructure.Data;
 using Infrastructure.Email;
+using Infrastructure.External_Services.RAWG;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +31,8 @@ namespace Infrastructure
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddHttpClient<IRawgApiClient, RawgApiClient>();
 
             return services;
         }
