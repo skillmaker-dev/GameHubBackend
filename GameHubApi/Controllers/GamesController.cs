@@ -29,10 +29,17 @@ namespace GameHubApi.Controllers
         }
 
         [HttpGet("{id}/screenshots")]
-        public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGameScreenshots(int id)
+        public async Task<ActionResult<RawgFetchResponseDTO<GameScreenshotDTO>>> GetGameScreenshots(int id)
         {
             var screenshots = await _rawgApiClient.GetGameScreenshotsAsync(id);
             return Ok(screenshots.Adapt<RawgFetchResponseDTO<GameScreenshotDTO>>());
+        }
+
+        [HttpGet("{id}/movies")]
+        public async Task<ActionResult<RawgFetchResponseDTO<GameTrailerDTO>>> GetGameTrailers(int id)
+        {
+            var trailers = await _rawgApiClient.GetGameTrailersAsync(id);
+            return Ok(trailers.Adapt<RawgFetchResponseDTO<GameTrailerDTO>>());
         }
     }
 }

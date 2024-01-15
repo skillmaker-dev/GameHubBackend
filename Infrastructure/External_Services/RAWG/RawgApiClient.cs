@@ -132,9 +132,31 @@ namespace Infrastructure.External_Services.RAWG
             }
         }
 
-        public Task<IEnumerable<GameTrailer>?> GetGameTrailersAsync()
+        public async Task<RawgFetchResponse<GameTrailer>?> GetGameTrailersAsync(int id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Attempting to get Game trailers");
+            var response = await _httpClient.GetAsync($"games/{id}/movies?key={_key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var trailersResponse = await response.Content.ReadFromJsonAsync<RawgFetchResponse<GameTrailer>>();
+                return trailersResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogError("Could not find trailers for the game with id {id}", id);
+                throw new GameTrailersNotFoundException($"Could not find trailers for the game with id {id}");
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
+                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+            }
+            else
+            {
+                _logger.LogCritical("An error occured when calling the api");
+                throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
+            }
         }
 
         public Task<IEnumerable<Genre>?> GetGenresAsync()

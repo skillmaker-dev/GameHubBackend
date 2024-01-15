@@ -34,6 +34,11 @@ namespace Application.Interfaces.HttpClient
         /// <param name="id">Id of the game</param>
         /// <returns>A <see cref="RawgFetchResponse{T}"/> Object that contains a list of screenshots</returns>
         Task<RawgFetchResponse<GameScreenshot>?> GetGameScreenshotsAsync(int id);
-        Task<IEnumerable<GameTrailer>?> GetGameTrailersAsync();
+        /// <summary>
+        /// Get game trailers.
+        /// </summary>
+        /// <param name="id">Id of the game</param>
+        /// <returns>A <see cref="RawgFetchResponse{T}"/> Object that contains a list of screenshots</returns>
+        Task<RawgFetchResponse<GameTrailer>?> GetGameTrailersAsync(int id);
     }
 }
