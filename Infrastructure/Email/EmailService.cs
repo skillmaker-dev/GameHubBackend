@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Interfaces.Email;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using FluentEmail.Core;
+﻿using Application.Interfaces.Email;
 using Common.Models;
+using FluentEmail.Core;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Email
 {
@@ -28,7 +21,7 @@ namespace Infrastructure.Email
             _logger.LogInformation("Sending email");
             await _fluentEmailFactory.Create().To(emailMessageModel.ToAddress)
                 .Subject(emailMessageModel.Subject)
-                .Body(emailMessageModel.Body,true)
+                .Body(emailMessageModel.Body, true)
                 .SendAsync();
         }
     }

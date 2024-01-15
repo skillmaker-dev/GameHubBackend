@@ -5,13 +5,8 @@ using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.External_Services.RAWG
 {
@@ -64,7 +59,7 @@ namespace Infrastructure.External_Services.RAWG
             else
             {
                 _logger.LogCritical("An error occured when calling the api");
-                throw new RawgApiException("An error occured when calling the api",HttpStatusCode.InternalServerError);
+                throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
             }
         }
 

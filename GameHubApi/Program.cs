@@ -2,15 +2,13 @@ using Application;
 using Common.Helpers;
 using GameHubApi;
 using Infrastructure;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = new LowerCaseNamingPolicy() );
+builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = new LowerCaseNamingPolicy());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

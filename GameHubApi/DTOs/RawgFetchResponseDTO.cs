@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace GameHubApi.DTOs
+﻿namespace GameHubApi.DTOs
 {
     public class RawgFetchResponseDTO<T> where T : BaseEntityDTO
     {

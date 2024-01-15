@@ -1,9 +1,6 @@
 ﻿using Application.Interfaces.HttpClient;
-using Domain.Entities;
-using Domain.FetchResponses;
 using GameHubApi.DTOs;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
@@ -11,16 +8,16 @@ namespace GameHubApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GamesController(ILogger<GamesController> logger , IRawgApiClient rawgApiClient) : ControllerBase
+    public class GamesController(ILogger<GamesController> logger, IRawgApiClient rawgApiClient) : ControllerBase
     {
         private readonly ILogger<GamesController> _logger = logger;
         private readonly IRawgApiClient _rawgApiClient = rawgApiClient;
 
-        [HttpGet,OutputCache]
+        [HttpGet, OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGames(string? genres, string? parent_platforms, string? ordering, string? search, string? page)
         {
             _logger.LogInformation($"Calling the {nameof(GetGames)} endpoint");
-            var games = await _rawgApiClient.GetGamesAsync(genres, parent_platforms, ordering,search,page);
+            var games = await _rawgApiClient.GetGamesAsync(genres, parent_platforms, ordering, search, page);
             return Ok(games.Adapt<RawgFetchResponseDTO<GameDTO>>());
         }
 

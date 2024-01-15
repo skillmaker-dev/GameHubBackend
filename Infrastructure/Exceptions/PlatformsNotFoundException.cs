@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Infrastructure.Exceptions
+﻿namespace Infrastructure.Exceptions
 {
     public class PlatformsNotFoundException(string message) : Exception(message)
     {

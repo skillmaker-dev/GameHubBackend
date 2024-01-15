@@ -4,13 +4,13 @@ namespace GameHubApi
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPresentation(this IServiceCollection services) 
+        public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
             services.AddCors();
             services.AddExceptionHandler<ExceptionHandler>();
             services.AddProblemDetails();
             services.AddOutputCache(opt => opt.DefaultExpirationTimeSpan = TimeSpan.FromDays(1));
-            return services; 
+            return services;
         }
     }
 }

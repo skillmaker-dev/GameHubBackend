@@ -1,6 +1,4 @@
-﻿using Domain.ValueObjects;
-
-namespace GameHubApi.DTOs
+﻿namespace GameHubApi.DTOs
 {
     public class GameTrailerDTO : BaseEntityDTO
     {
