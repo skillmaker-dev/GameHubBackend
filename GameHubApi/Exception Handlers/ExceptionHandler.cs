@@ -16,11 +16,27 @@ namespace GameHubApi.Exception_Handlers
 
             if(exception is GameNotFoundException or GamesListNotFoundException)
             {
-                problemDetails.Title = "Not found";
+                problemDetails.Title = "Not found error";
                 problemDetails.Details = exception.Message;
                 problemDetails.StatusCode = HttpStatusCode.NotFound;
             }
-
+            else if(exception is RawgApiException)
+            {
+                problemDetails.Title = "Api error";
+                problemDetails.Details = "An error occured during call to api, please try again."; // I didn't provide server exception details to the client. 
+                problemDetails.StatusCode = HttpStatusCode.InternalServerError;
+            }else if(exception is HttpRequestException httpException)
+            {
+                problemDetails.Title = "Http Request error";
+                problemDetails.Details = "An error occured during an http request, please try again.";
+                problemDetails.StatusCode = httpException.StatusCode ?? HttpStatusCode.InternalServerError;
+            }
+            else
+            {
+                problemDetails.Title = "Server error";
+                problemDetails.Details = "An error occured in server, please try again.";
+                problemDetails.StatusCode = HttpStatusCode.InternalServerError;
+            }
             httpContext.Response.StatusCode = (int)problemDetails.StatusCode;
 
             await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
