@@ -17,10 +17,10 @@ namespace GameHubApi.Controllers
         private readonly IRawgApiClient _rawgApiClient = rawgApiClient;
 
         [HttpGet,OutputCache]
-        public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGames(string? genre, string? parentPlatform, string? ordering, string? search, string? page)
+        public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGames(string? genres, string? parent_platforms, string? ordering, string? search, string? page)
         {
             _logger.LogInformation($"Calling the {nameof(GetGames)} endpoint");
-            var games = await _rawgApiClient.GetGamesAsync(genre,parentPlatform,ordering,search,page);
+            var games = await _rawgApiClient.GetGamesAsync(genres, parent_platforms, ordering,search,page);
             return Ok(games.Adapt<RawgFetchResponseDTO<GameDTO>>());
         }
 
