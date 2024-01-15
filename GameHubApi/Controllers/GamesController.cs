@@ -27,5 +27,12 @@ namespace GameHubApi.Controllers
             var game = await _rawgApiClient.GetGameAsync(slug);
             return Ok(game.Adapt<GameDTO>());
         }
+
+        [HttpGet("{id}/screenshots")]
+        public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGameScreenshots(int id)
+        {
+            var screenshots = await _rawgApiClient.GetGameScreenshotsAsync(id);
+            return Ok(screenshots.Adapt<RawgFetchResponseDTO<GameScreenshotDTO>>());
+        }
     }
 }

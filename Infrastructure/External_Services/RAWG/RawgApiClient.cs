@@ -105,9 +105,31 @@ namespace Infrastructure.External_Services.RAWG
             }
         }
 
-        public Task<IEnumerable<GameScreenshot>?> GetGameScreenshotsAsync()
+        public async Task<RawgFetchResponse<GameScreenshot>?> GetGameScreenshotsAsync(int id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Attempting to get Game screenshots");
+            var response = await _httpClient.GetAsync($"games/{id}/screenshots?key={_key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var screenshotsResponse = await response.Content.ReadFromJsonAsync<RawgFetchResponse<GameScreenshot>>();
+                return screenshotsResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogError("Could not find screenshots for the game with id {id}", id);
+                throw new GameScreenshotsNotFoundException($"Could not find screenshots for the game with id {id}");
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
+                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+            }
+            else
+            {
+                _logger.LogCritical("An error occured when calling the api");
+                throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
+            }
         }
 
         public Task<IEnumerable<GameTrailer>?> GetGameTrailersAsync()
