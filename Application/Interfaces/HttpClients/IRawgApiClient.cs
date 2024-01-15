@@ -31,7 +31,11 @@ namespace Application.Interfaces.HttpClient
         /// </summary>
         /// <returns>A <see cref="RawgFetchResponse{T}"/> Object that contains a list of genres</returns>
         Task<RawgFetchResponse<Genre>?> GetGenresAsync();
-        Task<IEnumerable<Platform>?> GetPlatformsAsync();
+        /// <summary>
+        /// Get platforms
+        /// </summary>
+        /// <returns>A <see cref="RawgFetchResponse{T}"/> Object that contains a list of platforms</returns>
+        Task<RawgFetchResponse<Platform>?> GetPlatformsAsync();
         /// <summary>
         /// Get game screenshots.
         /// </summary>

@@ -186,9 +186,31 @@ namespace Infrastructure.External_Services.RAWG
             }
         }
 
-        public Task<IEnumerable<Platform>?> GetPlatformsAsync()
+        public async Task<RawgFetchResponse<Platform>?> GetPlatformsAsync()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Attempting to get platforms");
+            var response = await _httpClient.GetAsync($"platforms/lists/parents?key={_key}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var platformsResponse = await response.Content.ReadFromJsonAsync<RawgFetchResponse<Platform>>();
+                return platformsResponse;
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                _logger.LogError("Could not find platforms");
+                throw new PlatformsNotFoundException("Could not find platforms");
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogCritical("Could not make call to the api, unauthorized");
+                throw new RawgApiException("Could not make call to the api, unauthorized", response.StatusCode);
+            }
+            else
+            {
+                _logger.LogCritical("An error occured when calling the api");
+                throw new RawgApiException("An error occured when calling the api", HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

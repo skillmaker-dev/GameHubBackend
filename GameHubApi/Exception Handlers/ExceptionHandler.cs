@@ -14,7 +14,12 @@ namespace GameHubApi.Exception_Handlers
             _logger.LogError(exception,"Exception occurred: {Message}",exception.Message);
             var problemDetails = new ProblemDetails();
 
-            if(exception is GameNotFoundException or GamesListNotFoundException or GameScreenshotsNotFoundException or GameTrailersNotFoundException or GenresNotFoundException)
+            if(exception is GameNotFoundException 
+                         or GamesListNotFoundException 
+                         or GameScreenshotsNotFoundException 
+                         or GameTrailersNotFoundException 
+                         or GenresNotFoundException
+                         or PlatformsNotFoundException)
             {
                 problemDetails.Title = "Not found error";
                 problemDetails.Details = exception.Message;
