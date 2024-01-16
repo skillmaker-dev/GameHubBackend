@@ -18,7 +18,12 @@ namespace Infrastructure
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("AppDb"));
             services.AddAuthorization();
 
-            services.AddIdentityApiEndpoints<IdentityUser>()
+            services.AddIdentityApiEndpoints<IdentityUser>(opt => 
+                                                            { 
+                                                                opt.Password.RequiredLength = 8; 
+                                                                opt.User.RequireUniqueEmail = true; 
+                                                                opt.SignIn.RequireConfirmedEmail = true; 
+                                                            })
                     .AddDefaultUI()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
