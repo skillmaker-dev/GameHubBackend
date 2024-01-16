@@ -69,7 +69,7 @@ namespace Infrastructure.External_Services.RAWG
             var queryParams = new Dictionary<string, string?>()
             {
                 { "genres", genres },
-                { "parentPlatforms", parentPlatforms },
+                { "parent_platforms", parentPlatforms },
                 {"ordering", ordering },
                 {"search", search},
                 {"key", _key},
