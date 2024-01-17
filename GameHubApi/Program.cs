@@ -1,6 +1,7 @@
 using Application;
 using Common.Helpers;
 using GameHubApi;
+using GameHubApi.Extensions;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 
@@ -31,6 +32,9 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseAuthorization();
 app.MapIdentityApi<IdentityUser>();
+
+// Add endpoint for Logout since it doesn't exist in the Identity Endpoints in .NET 8
+app.MapLogOut();
 app.MapControllers();
 
 app.Run();
