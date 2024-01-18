@@ -19,7 +19,8 @@ namespace GameHubApi.Exception_Handlers
                          or GameScreenshotsNotFoundException
                          or GameTrailersNotFoundException
                          or GenresNotFoundException
-                         or PlatformsNotFoundException)
+                         or PlatformsNotFoundException
+                         )
             {
                 problemDetails.Title = "Not found error";
                 problemDetails.Details = exception.Message;
@@ -36,6 +37,30 @@ namespace GameHubApi.Exception_Handlers
                 problemDetails.Title = "Http Request error";
                 problemDetails.Details = "An error occured during an http request, please try again.";
                 problemDetails.StatusCode = httpException.StatusCode ?? HttpStatusCode.InternalServerError;
+            }
+            else if (exception is GameIsAlreadyInFavoritesException)
+            {
+                problemDetails.Title = "Unprocessed";
+                problemDetails.Details = "Game already in favorites";
+                problemDetails.StatusCode = HttpStatusCode.UnprocessableEntity;
+            }
+            else if (exception is GameNotRemovedFromFavoritesException)
+            {
+                problemDetails.Title = "Internal server error";
+                problemDetails.Details = "Could not remove game from favorites.";
+                problemDetails.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            else if (exception is GameNotSavedToFavoritesException)
+            {
+                problemDetails.Title = "Internal server error";
+                problemDetails.Details = "Could not save game to favorites.";
+                problemDetails.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            else if (exception is GameIsNotInFavoritesException)
+            {
+                problemDetails.Title = "Unprocesses";
+                problemDetails.Details = "Game is not in favorites";
+                problemDetails.StatusCode = HttpStatusCode.UnprocessableEntity;
             }
             else
             {

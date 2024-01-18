@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.FetchResponses;
 
-namespace Application.Interfaces.HttpClient
+namespace Application.Services.HttpClient
 {
     public interface IRawgApiClient
     {

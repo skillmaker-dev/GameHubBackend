@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.HttpClient;
+﻿using Application.Services.HttpClient;
 using Domain.Entities;
 using Domain.FetchResponses;
 using Infrastructure.Exceptions;

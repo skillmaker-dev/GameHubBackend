@@ -3,6 +3,7 @@ using Common.Helpers;
 using GameHubApi;
 using GameHubApi.Extensions;
 using Infrastructure;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,12 +28,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://127.0.0.1:5173").AllowCredentials());
+app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => new Uri(origin).Host == "127.0.0.1"));
 app.UseOutputCache();
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseAuthorization();
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 // Add endpoint for Logout since it doesn't exist in the Identity Endpoints in .NET 8
 app.MapLogOut();

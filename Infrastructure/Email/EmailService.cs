@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Email;
+﻿using Application.Services.Email;
 using Common.Models;
 using FluentEmail.Core;
 using Microsoft.Extensions.Logging;

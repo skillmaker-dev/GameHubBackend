@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.HttpClient;
+﻿using Application.Services.HttpClient;
 using GameHubApi.DTOs;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;

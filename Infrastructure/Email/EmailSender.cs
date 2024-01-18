@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Email;
+﻿using Application.Services.Email;
 using Common.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 

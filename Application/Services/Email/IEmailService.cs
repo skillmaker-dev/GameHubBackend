@@ -1,6 +1,6 @@
 ﻿using Common.Models;
 
-namespace Application.Interfaces.Email
+namespace Application.Services.Email
 {
     public interface IEmailService
     {

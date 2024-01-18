@@ -1,6 +1,9 @@
-﻿using Application.Interfaces.HttpClient;
+﻿using Application.Services.FavoriteGames;
+using Application.Services.HttpClient;
+using GameHubApi.Attributes;
 using GameHubApi.DTOs;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
@@ -8,10 +11,11 @@ namespace GameHubApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GamesController(ILogger<GamesController> logger, IRawgApiClient rawgApiClient) : ControllerBase
+    public class GamesController(ILogger<GamesController> logger, IRawgApiClient rawgApiClient, IGamesService gamesService) : ControllerBase
     {
         private readonly ILogger<GamesController> _logger = logger;
         private readonly IRawgApiClient _rawgApiClient = rawgApiClient;
+        private readonly IGamesService _gamesService = gamesService;
 
         [HttpGet, OutputCache]
         public async Task<ActionResult<RawgFetchResponseDTO<GameDTO>>> GetGames(string? genres, string? parent_platforms, string? ordering, string? search, string? page)
@@ -44,5 +48,7 @@ namespace GameHubApi.Controllers
             var trailers = await _rawgApiClient.GetGameTrailersAsync(id);
             return Ok(trailers.Adapt<RawgFetchResponseDTO<GameTrailerDTO>>());
         }
+
+
     }
 }

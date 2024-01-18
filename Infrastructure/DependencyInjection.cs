@@ -1,8 +1,11 @@
-﻿using Application.Interfaces.Email;
-using Application.Interfaces.HttpClient;
+﻿using Application.Services.Email;
+using Application.Services.FavoriteGames;
+using Application.Services.HttpClient;
 using Infrastructure.Data;
 using Infrastructure.Email;
 using Infrastructure.External_Services.RAWG;
+using Infrastructure.Identity;
+using Infrastructure.Services.Games;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +21,7 @@ namespace Infrastructure
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("AppDb"));
             services.AddAuthorization();
 
-            services.AddIdentityApiEndpoints<IdentityUser>(opt => 
+            services.AddIdentityApiEndpoints<ApplicationUser>(opt => 
                                                             { 
                                                                 opt.Password.RequiredLength = 8; 
                                                                 opt.User.RequireUniqueEmail = true; 
@@ -33,6 +36,7 @@ namespace Infrastructure
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddHttpClient<IRawgApiClient, RawgApiClient>();
+            services.AddScoped<IGamesService, GamesService>();
 
             return services;
         }
