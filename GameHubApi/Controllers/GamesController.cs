@@ -1,5 +1,6 @@
 ﻿using Application.Services.FavoriteGames;
 using Application.Services.HttpClient;
+using Domain.Entities;
 using GameHubApi.Attributes;
 using GameHubApi.DTOs;
 using Mapster;
@@ -54,14 +55,31 @@ namespace GameHubApi.Controllers
         {
             _logger.LogInformation($"Calling the {nameof(GetFavoriteGames)} endpoint");
             var currentUserId = HttpContext.Items["CurrentUserId"] as string;
-            if (currentUserId is null)
-            {
-                _logger.LogCritical("User is not found");
-                throw new Exception("User not found");
-            }
 
-            var favoriteGames = await _gamesService.GetFavoriteGamesAsync(Guid.Parse(currentUserId));
+            var favoriteGames = await _gamesService.GetFavoriteGamesAsync(Guid.Parse(currentUserId!));
             return Ok(favoriteGames.Adapt<IEnumerable<FavoriteGameDTO>>());
+        }
+
+        [HttpPost("favoriteGames"), Authorize, GetCurrentUserId]
+        public async Task<IActionResult> AddFavoriteGame(GameDTO gamedto)
+        {
+            _logger.LogInformation($"Calling the {nameof(AddFavoriteGame)} endpoint");
+            var currentUserId = HttpContext.Items["CurrentUserId"] as string;
+
+            var game = gamedto.Adapt<Game>();
+
+            await _gamesService.AddGameToFavoritesAsync(game, Guid.Parse(currentUserId!));
+            return Created();
+        }
+
+        [HttpDelete("favoriteGames/{slug}"), Authorize, GetCurrentUserId]
+        public async Task<IActionResult> RemoveGameFromFavorite(string slug)
+        {
+            _logger.LogInformation($"Calling the {nameof(RemoveGameFromFavorite)} endpoint");
+            var currentUserId = HttpContext.Items["CurrentUserId"] as string;
+
+            await _gamesService.RemoveGameFromFavoritesAsync(slug, Guid.Parse(currentUserId!));
+            return NoContent();
         }
     }
 }

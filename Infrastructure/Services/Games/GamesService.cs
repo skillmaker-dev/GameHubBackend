@@ -30,16 +30,19 @@ namespace Infrastructure.Services.Games
 
             FavoriteGame? favoriteGame;
             favoriteGame = await _dbContext.FavoriteGames.FirstOrDefaultAsync(fg => fg.Slug == game.Slug);
-            
-            favoriteGame ??= new FavoriteGame
+
+            if (favoriteGame is null)
+            {
+                favoriteGame = new FavoriteGame
                 {
                     Name = game.Name,
                     Slug = game.Slug
                 };
-
+                await _dbContext.FavoriteGames.AddAsync(favoriteGame);
+            }
             
-
-            await _dbContext.FavoriteGames.AddAsync(favoriteGame);
+            favoriteGame.Name = game.Name;
+            
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             
             user!.FavoriteGames.Add(favoriteGame); // User is already checked if null or not when calling GameIsInFavoritesAsync above
@@ -54,7 +57,7 @@ namespace Infrastructure.Services.Games
         public async Task<bool> GameIsInFavoritesAsync(string slug, Guid userId)
         {
             _logger.LogInformation("Checking if game exists in favorites");
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _dbContext.Users.Include(u => u.FavoriteGames).FirstOrDefaultAsync(u => u.Id == userId);
             if(user is null)
             {
                 _logger.LogCritical("Could not find user with id: {userId}", userId);
@@ -68,7 +71,7 @@ namespace Infrastructure.Services.Games
         public async Task<IEnumerable<FavoriteGame>> GetFavoriteGamesAsync(Guid userId)
         {
             _logger.LogInformation("Getting favorite games");
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _dbContext.Users.Include(u => u.FavoriteGames).FirstOrDefaultAsync(u => u.Id == userId);
             if (user is null)
             {
                 _logger.LogCritical("Could not find user with id: {userId}", userId);

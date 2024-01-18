@@ -25,7 +25,8 @@ namespace Infrastructure
                                                             { 
                                                                 opt.Password.RequiredLength = 8; 
                                                                 opt.User.RequireUniqueEmail = true; 
-                                                                opt.SignIn.RequireConfirmedEmail = true; 
+                                                                opt.Password.RequireNonAlphanumeric = false;
+                                                                opt.SignIn.RequireConfirmedEmail = false; 
                                                             })
                     .AddDefaultUI()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
