@@ -36,22 +36,26 @@ namespace Infrastructure.Services.Games
                 favoriteGame = new FavoriteGame
                 {
                     Name = game.Name,
-                    Slug = game.Slug
+                    Slug = game.Slug,
+                    Background_Image = game.Background_Image
                 };
                 await _dbContext.FavoriteGames.AddAsync(favoriteGame);
             }
             else
-               favoriteGame.Name = game.Name;
-            
-            
-            
+            {
+                favoriteGame.Name = game.Name;
+                favoriteGame.Background_Image = game.Background_Image;
+            }
+
+
+
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            
+
             user!.FavoriteGames.Add(favoriteGame); // User is already checked if null or not when calling GameIsInFavoritesAsync above
 
-            if (!(await _dbContext.SaveChangesAsync() > 0)) 
+            if (!(await _dbContext.SaveChangesAsync() > 0))
             {
-                _logger.LogCritical("Could not save game with slug {slug} to the database",game.Slug);
+                _logger.LogCritical("Could not save game with slug {slug} to the database", game.Slug);
                 throw new GameNotSavedToFavoritesException($"Could not save game with slug {game.Slug} to the database");
             }
         }
@@ -60,7 +64,7 @@ namespace Infrastructure.Services.Games
         {
             _logger.LogInformation("Checking if game exists in favorites");
             var user = await _dbContext.Users.Include(u => u.FavoriteGames).FirstOrDefaultAsync(u => u.Id == userId);
-            if(user is null)
+            if (user is null)
             {
                 _logger.LogCritical("Could not find user with id: {userId}", userId);
                 throw new UserNotFoundException($"Could not find user with id: {userId}");
@@ -96,7 +100,7 @@ namespace Infrastructure.Services.Games
             }
 
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            
+
             var favoriteGame = user!.FavoriteGames.FirstOrDefault(fg => fg.Slug == slug); // User is already checked if null or not when calling GameIsInFavoritesAsync above
 
             user.FavoriteGames.Remove(favoriteGame!); // We already checked if the game exists in GameIsInFavoritesAsync() above

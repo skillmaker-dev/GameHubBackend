@@ -6,5 +6,6 @@ namespace GameHubApi.DTOs
     {
         public string? Name { get; set; }
         public string? Slug { get; set; }
+        public string Background_Image { get; set; } = string.Empty;
     }
 }
