@@ -87,7 +87,7 @@ To get the app up and running, follow the steps below:
   ```
 * Then run docker compose file using the following command:
   ```sh
-  docker-compose run
+  docker-compose up
   ```
   >**Note: run the command on the root folder of the project**
 
