@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => new Uri(origin).Host == "127.0.0.1"));
+app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => new Uri(origin).Host == "127.0.0.1" || origin == "https://aesthetic-manatee-2ad4b8.netlify.app"));
 app.UseOutputCache();
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
