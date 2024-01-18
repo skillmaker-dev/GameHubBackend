@@ -12,6 +12,8 @@
 
   <p align="center">
     <a href="https://aesthetic-manatee-2ad4b8.netlify.app/">View Demo</a>
+    <br/>
+    <b>Don't forget to run the backend app first</b>
   </p>
 </div>
 
@@ -69,7 +71,11 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
+**For the React app you can start it using the following commands**:
+```sh
+npm install
+npm run dev
+```
 To get the app up and running, follow the steps below:
 
 * First, generate a valid dev certificate in your local machine using the following commands:
@@ -96,11 +102,14 @@ To get the app up and running, follow the steps below:
 * When using the app, you might want to create an account using the frontend app, in that case a confirmation email will be sent to you, you can view the emails on the local smtp server using the following link: http://localhost:3000/
 * If you want to login using Swagger UI, don't forget to set the useCookies query parameter to true
 ## Prerequisites
-You will need the following things before being able to work with the project if you aren't running the app via docker:
-* .NET 8
-* smtp4dev
+- You will need the following things before being able to work with the project if you aren't running the app via docker:
+  * .NET 8
+  * smtp4dev
+- You will need the following things before being able to work with the react project:
+  * Node.js
+  * Vite
 
-For the frontend, you can visit the [hosted app](https://aesthetic-manatee-2ad4b8.netlify.app/) on netlify or you can dive inside the project in this [repository](https://github.com/skillmaker-dev/game-hub): 
+For the frontend, you can visit the [hosted app](https://aesthetic-manatee-2ad4b8.netlify.app/) on netlify or you can dive inside the project in this [repository](https://github.com/skillmaker-dev/game-hub)
 
 ## Screenshots
 ![image](https://github.com/skillmaker-dev/GameHubBackend/assets/64654197/bb5e6dd8-6e6c-4438-8e60-90b7a683109b)
