@@ -40,8 +40,10 @@ namespace Infrastructure.Services.Games
                 };
                 await _dbContext.FavoriteGames.AddAsync(favoriteGame);
             }
+            else
+               favoriteGame.Name = game.Name;
             
-            favoriteGame.Name = game.Name;
+            
             
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             
@@ -94,12 +96,8 @@ namespace Infrastructure.Services.Games
             }
 
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if (user is null)
-            {
-                _logger.LogCritical("Could not find user with id: {userId}", userId);
-                throw new UserNotFoundException($"Could not find user with id: {userId}");
-            }
-            var favoriteGame = user.FavoriteGames.FirstOrDefault(fg => fg.Slug == slug);
+            
+            var favoriteGame = user!.FavoriteGames.FirstOrDefault(fg => fg.Slug == slug); // User is already checked if null or not when calling GameIsInFavoritesAsync above
 
             user.FavoriteGames.Remove(favoriteGame!); // We already checked if the game exists in GameIsInFavoritesAsync() above
 

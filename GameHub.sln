@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameHubApi", "GameHubApi\GameHubApi.csproj", "{286C4C88-46B1-4A32-9865-81E4309D5A16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameHubApi", "GameHubApi\GameHubApi.csproj", "{286C4C88-46B1-4A32-9865-81E4309D5A16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{7CB0B078-B061-4220-A026-C778CDABA86A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{7CB0B078-B061-4220-A026-C778CDABA86A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{802752DF-10A1-4508-9418-98DE32FC5798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{802752DF-10A1-4508-9418-98DE32FC5798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{1226D7E2-72D2-4580-A7B1-78538F7BBE39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{1226D7E2-72D2-4580-A7B1-78538F7BBE39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{F28616C9-AB99-4509-941E-3FD694E047A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{F28616C9-AB99-4509-941E-3FD694E047A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C9F5FAF6-3C6E-4032-B499-E273B2346233}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F28616C9-AB99-4509-941E-3FD694E047A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F28616C9-AB99-4509-941E-3FD694E047A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F28616C9-AB99-4509-941E-3FD694E047A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F5FAF6-3C6E-4032-B499-E273B2346233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F5FAF6-3C6E-4032-B499-E273B2346233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F5FAF6-3C6E-4032-B499-E273B2346233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F5FAF6-3C6E-4032-B499-E273B2346233}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
