@@ -26,12 +26,19 @@ namespace GameHubApi.Controllers
             return Ok(games.Adapt<RawgFetchResponseDTO<GameDTO>>());
         }
 
-        [HttpGet("{slug}"), OutputCache]
+        [HttpGet("{slug}"),Authorize, OutputCache, GetCurrentUserId]
         public async Task<ActionResult<GameDTO>> GetGame(string slug)
         {
             _logger.LogInformation($"Calling the {nameof(GetGame)} endpoint");
+            var currentUserId = HttpContext.Items["CurrentUserId"] as string;
             var game = await _rawgApiClient.GetGameAsync(slug);
-            return Ok(game.Adapt<GameDTO>());
+
+            var gameIsInFavorite = await _gamesService.GameIsInFavoritesAsync(slug, Guid.Parse(currentUserId!));
+
+            var gameDto = game.Adapt<GameDTO>();
+            gameDto.IsInFavorites = gameIsInFavorite;
+
+            return Ok(gameDto);
         }
 
         [HttpGet("{id}/screenshots"), OutputCache]

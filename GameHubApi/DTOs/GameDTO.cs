@@ -11,5 +11,8 @@
         public string Slug { get; set; } = string.Empty;
         public IEnumerable<GenreDTO>? Genres { get; set; }
         public IEnumerable<PublisherDTO>? Publishers { get; set; }
+
+        // Filed indicating if game is in favorites for the user
+        public bool IsInFavorites { get; set; }
     }
 }
