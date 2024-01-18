@@ -20,6 +20,7 @@ namespace GameHubApi.Exception_Handlers
                          or GameTrailersNotFoundException
                          or GenresNotFoundException
                          or PlatformsNotFoundException
+                         or UserNotFoundException
                          )
             {
                 problemDetails.Title = "Not found error";
@@ -41,25 +42,25 @@ namespace GameHubApi.Exception_Handlers
             else if (exception is GameIsAlreadyInFavoritesException)
             {
                 problemDetails.Title = "Unprocessed";
-                problemDetails.Details = "Game already in favorites";
+                problemDetails.Details = exception.Message;
                 problemDetails.StatusCode = HttpStatusCode.UnprocessableEntity;
             }
             else if (exception is GameNotRemovedFromFavoritesException)
             {
                 problemDetails.Title = "Internal server error";
-                problemDetails.Details = "Could not remove game from favorites.";
+                problemDetails.Details = exception.Message;
                 problemDetails.StatusCode = HttpStatusCode.InternalServerError;
             }
             else if (exception is GameNotSavedToFavoritesException)
             {
                 problemDetails.Title = "Internal server error";
-                problemDetails.Details = "Could not save game to favorites.";
+                problemDetails.Details = exception.Message;
                 problemDetails.StatusCode = HttpStatusCode.InternalServerError;
             }
             else if (exception is GameIsNotInFavoritesException)
             {
                 problemDetails.Title = "Unprocesses";
-                problemDetails.Details = "Game is not in favorites";
+                problemDetails.Details = exception.Message;
                 problemDetails.StatusCode = HttpStatusCode.UnprocessableEntity;
             }
             else

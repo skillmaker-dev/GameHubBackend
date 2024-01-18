@@ -20,24 +20,31 @@ namespace Infrastructure.Services.Games
         public async Task AddGameToFavoritesAsync(Game game, Guid userId)
         {
             _logger.LogInformation("Adding a game to favorites");
-            
-            var favoriteGame = new FavoriteGame
-            {
-                UserId = userId,
-                Name = game.Name,
-                Slug = game.Slug
-            };
 
             var gameAlreadyInFav = await GameIsInFavoritesAsync(game.Slug, userId);
-            if(gameAlreadyInFav)
+            if (gameAlreadyInFav)
             {
                 _logger.LogError("Game with slug {slug} is already in favorites", game.Slug);
                 throw new GameIsAlreadyInFavoritesException($"Game with slug {game.Slug} is already in favorites");
             }
 
-            await _dbContext.FavoriteGames.AddAsync(favoriteGame);
+            FavoriteGame? favoriteGame;
+            favoriteGame = await _dbContext.FavoriteGames.FirstOrDefaultAsync(fg => fg.Slug == game.Slug);
+            
+            favoriteGame ??= new FavoriteGame
+                {
+                    Name = game.Name,
+                    Slug = game.Slug
+                };
 
-            if(!(await _dbContext.SaveChangesAsync() > 0)) 
+            
+
+            await _dbContext.FavoriteGames.AddAsync(favoriteGame);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            
+            user!.FavoriteGames.Add(favoriteGame); // User is already checked if null or not when calling GameIsInFavoritesAsync above
+
+            if (!(await _dbContext.SaveChangesAsync() > 0)) 
             {
                 _logger.LogCritical("Could not save game with slug {slug} to the database",game.Slug);
                 throw new GameNotSavedToFavoritesException($"Could not save game with slug {game.Slug} to the database");
@@ -46,30 +53,52 @@ namespace Infrastructure.Services.Games
 
         public async Task<bool> GameIsInFavoritesAsync(string slug, Guid userId)
         {
-            return await _dbContext.FavoriteGames.AnyAsync(fg => (fg.Slug == slug && fg.UserId == userId));
+            _logger.LogInformation("Checking if game exists in favorites");
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user is null)
+            {
+                _logger.LogCritical("Could not find user with id: {userId}", userId);
+                throw new UserNotFoundException($"Could not find user with id: {userId}");
+            }
+            var gameExistsInFavorites = user.FavoriteGames.Any(fg => fg.Slug == slug);
+
+            return gameExistsInFavorites;
         }
 
         public async Task<IEnumerable<FavoriteGame>> GetFavoriteGamesAsync(Guid userId)
         {
             _logger.LogInformation("Getting favorite games");
-            var favGames = await _dbContext.FavoriteGames.Where(fg => fg.UserId == userId).ToListAsync();
-            if(favGames is null)
-                return Enumerable.Empty<FavoriteGame>();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user is null)
+            {
+                _logger.LogCritical("Could not find user with id: {userId}", userId);
+                throw new UserNotFoundException($"Could not find user with id: {userId}");
+            }
 
-            return favGames;
+            var favGames = user.FavoriteGames;
+
+            return favGames ?? Enumerable.Empty<FavoriteGame>();
         }
 
         public async Task RemoveGameFromFavoritesAsync(string slug, Guid userId)
         {
             _logger.LogInformation("Removing a game from favorites");
-            var favGame = await _dbContext.FavoriteGames.FirstOrDefaultAsync(fg => (fg.Slug == slug && fg.UserId == userId));
-            if (favGame is null)
+            var gameAlreadyInFav = await GameIsInFavoritesAsync(slug, userId);
+            if (!gameAlreadyInFav)
             {
                 _logger.LogError("Game with slug {slug} is not in favorites", slug);
                 throw new GameIsNotInFavoritesException($"Game with slug {slug} is not in favorites");
             }
 
-            _dbContext.FavoriteGames.Remove(favGame);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user is null)
+            {
+                _logger.LogCritical("Could not find user with id: {userId}", userId);
+                throw new UserNotFoundException($"Could not find user with id: {userId}");
+            }
+            var favoriteGame = user.FavoriteGames.FirstOrDefault(fg => fg.Slug == slug);
+
+            user.FavoriteGames.Remove(favoriteGame!); // We already checked if the game exists in GameIsInFavoritesAsync() above
 
             if (!(await _dbContext.SaveChangesAsync() > 0))
             {

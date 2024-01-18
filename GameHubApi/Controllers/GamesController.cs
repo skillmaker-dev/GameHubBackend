@@ -49,6 +49,19 @@ namespace GameHubApi.Controllers
             return Ok(trailers.Adapt<RawgFetchResponseDTO<GameTrailerDTO>>());
         }
 
+        [HttpGet("favoriteGames"),Authorize,GetCurrentUserId]
+        public async Task<ActionResult<IEnumerable<FavoriteGameDTO>>> GetFavoriteGames()
+        {
+            _logger.LogInformation($"Calling the {nameof(GetFavoriteGames)} endpoint");
+            var currentUserId = HttpContext.Items["CurrentUserId"] as string;
+            if (currentUserId is null)
+            {
+                _logger.LogCritical("User is not found");
+                throw new Exception("User not found");
+            }
 
+            var favoriteGames = await _gamesService.GetFavoriteGamesAsync(Guid.Parse(currentUserId));
+            return Ok(favoriteGames.Adapt<IEnumerable<FavoriteGameDTO>>());
+        }
     }
 }

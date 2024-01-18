@@ -10,6 +10,6 @@ namespace Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public ICollection<FavoriteGame>? FavoriteGames { get; set; }
+        public ICollection<FavoriteGame> FavoriteGames { get; set; } = new List<FavoriteGame>();
     }
 }
