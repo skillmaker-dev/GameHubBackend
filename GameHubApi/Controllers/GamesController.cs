@@ -26,7 +26,7 @@ namespace GameHubApi.Controllers
             return Ok(games.Adapt<RawgFetchResponseDTO<GameDTO>>());
         }
 
-        [HttpGet("{slug}"),Authorize, OutputCache, GetCurrentUserId]
+        [HttpGet("{slug}"),Authorize, GetCurrentUserId]
         public async Task<ActionResult<GameDTO>> GetGame(string slug)
         {
             _logger.LogInformation($"Calling the {nameof(GetGame)} endpoint");

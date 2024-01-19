@@ -1,4 +1,5 @@
 ﻿using GameHubApi.Exception_Handlers;
+using Microsoft.Extensions.Options;
 
 namespace GameHubApi
 {
@@ -9,7 +10,8 @@ namespace GameHubApi
             services.AddCors();
             services.AddExceptionHandler<ExceptionHandler>();
             services.AddProblemDetails();
-            services.AddOutputCache(opt => opt.DefaultExpirationTimeSpan = TimeSpan.FromDays(1));
+            services.AddOutputCache(options => options.AddBasePolicy(builder =>
+        builder.Expire(TimeSpan.FromHours(12))));
             return services;
         }
     }

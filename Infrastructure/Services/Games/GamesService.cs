@@ -31,6 +31,7 @@ namespace Infrastructure.Services.Games
             FavoriteGame? favoriteGame;
             favoriteGame = await _dbContext.FavoriteGames.FirstOrDefaultAsync(fg => fg.Slug == game.Slug);
 
+            //Check if favgame is null, if so,we create a new game in the database, otherwise we only update the existing game in the the database
             if (favoriteGame is null)
             {
                 favoriteGame = new FavoriteGame
